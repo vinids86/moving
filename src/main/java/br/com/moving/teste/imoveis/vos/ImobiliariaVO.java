@@ -20,5 +20,5 @@ public class ImobiliariaVO extends AbstractVO {
     private Long imobiliariaId;
     private String name;
     private String description;
-    private List<Imovel> imoveis;
+    private List<ImovelVO> imoveisVO;
 }

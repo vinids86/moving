@@ -12,10 +12,10 @@ import br.com.moving.teste.security.vo.UserVO;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +29,7 @@ import java.util.UUID;
  */
 @Service
 @Transactional(readOnly = true)
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserServiceImpl implements UserService {
 
     private final static Logger logger = Logger.getLogger(UserServiceImpl.class);
@@ -43,7 +43,8 @@ public class UserServiceImpl implements UserService {
     private final @NonNull
     UserORMAssembler userORMAssembler;
 
-    private final @NotNull EmailService emailService;
+    private final @NotNull
+    EmailService emailService;
 
     @Override
     @Transactional
@@ -57,17 +58,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserVO updatePassword(Long id, UserVO vo) {
+    public UserVO updatePassword(Long id, UserVO vo, String logged) {
 
         final User user = Optional.ofNullable(userRepository.findOne(id))
                 .orElseThrow(() -> new UsernameNotFoundException(String.valueOf(id)));
 
-        final String logged = SecurityContextHolder.getContext().getAuthentication().getName();
         if (!user.getEmail().equals(
                 logged))
             throw new UserIdNotAllowedException(user.getEmail(), logged);
 
-        if (vo.getPassword().isEmpty())
+        if (vo.getPassword() == null || vo.getPassword().isEmpty())
             throw new InvalidPasswordException(vo.getPassword());
 
         user.setPassword(vo.getPassword());
@@ -110,23 +110,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserVO getById(Long id) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Page<UserVO> getAll(Pageable pageable) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     @Transactional
     public void delete(Long id) {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     @Transactional
     public UserVO update(Long id, UserVO vo) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 }

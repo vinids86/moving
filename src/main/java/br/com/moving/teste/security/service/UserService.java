@@ -15,9 +15,10 @@ public interface UserService extends CRUDService<UserVO> {
      * Atualiza senha do usuário
      * @param id id do usuário
      * @param vo VO com a nova senha
+     * @param logged
      * @return
      */
-    UserVO updatePassword(Long id, UserVO vo);
+    UserVO updatePassword(Long id, UserVO vo, String logged);
 
     /**
      * Acha um usuário pelo email

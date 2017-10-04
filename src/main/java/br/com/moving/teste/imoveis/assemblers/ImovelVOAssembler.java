@@ -6,6 +6,11 @@ import br.com.moving.teste.imoveis.models.Imovel;
 import br.com.moving.teste.imoveis.vos.ImovelVO;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static br.com.moving.teste.commons.Utils.notNull;
+
 /**
  * Created by ifc.vinicius.saraiva on 29/09/17.
  */
@@ -32,5 +37,23 @@ public class ImovelVOAssembler implements VOAssembler<ImovelRequest, ImovelVO, I
         vo.setImobiliariaId(imovel.getImobiliaria().getId());
         vo.setDescription(imovel.getDescription());
         return vo;
+    }
+
+    @Override
+    public List<ImovelVO> resourcesToVOList(List<ImovelRequest> imoveisRequest) {
+        notNull(imoveisRequest);
+
+        final ArrayList<ImovelVO> imoveisVO = new ArrayList<>();
+        imoveisRequest.forEach(imovelRequest -> imoveisVO.add(this.toVO(imovelRequest)));
+        return imoveisVO;
+    }
+
+    @Override
+    public List<ImovelVO> ormsToVOList(List<Imovel> imoveis) {
+        notNull(imoveis);
+
+        final ArrayList<ImovelVO> imoveisVO = new ArrayList<>();
+        imoveis.forEach(imovel -> imoveisVO.add(this.toVO(imovel)));
+        return imoveisVO;
     }
 }

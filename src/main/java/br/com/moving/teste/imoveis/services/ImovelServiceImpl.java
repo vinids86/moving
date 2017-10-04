@@ -7,6 +7,7 @@ import br.com.moving.teste.imoveis.models.Imovel;
 import br.com.moving.teste.imoveis.vos.ImovelVO;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ import java.util.Optional;
  */
 @Service
 @Transactional(readOnly = true)
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ImovelServiceImpl implements ImovelService {
 
     private final @NonNull

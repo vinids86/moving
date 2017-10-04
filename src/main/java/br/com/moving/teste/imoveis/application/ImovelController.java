@@ -9,6 +9,7 @@ import br.com.moving.teste.imoveis.vos.ImovelVO;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
@@ -23,7 +24,7 @@ import java.net.URI;
  * Created by ifc.vinicius.saraiva on 29/09/17.
  */
 @RestController
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @RequestMapping("/imovel")
 @ExposesResourceFor(ImovelVO.class)
 public class ImovelController {

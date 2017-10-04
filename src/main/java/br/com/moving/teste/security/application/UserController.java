@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.web.bind.annotation.*;
@@ -23,13 +22,13 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.UUID;
+import java.security.Principal;
 
 /**
  * Created by ifc.vinicius.saraiva on 01/10/17.
  */
 @RestController
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @RequestMapping("/user")
 @ExposesResourceFor(UserVO.class)
 public class UserController {
@@ -55,9 +54,10 @@ public class UserController {
 
     @PreAuthorize("#oauth2.hasScope('read')")
     @RequestMapping(value = "/{id}/password", method = RequestMethod.PATCH)
-    public ResponseEntity<UserResponse> updatePassword(@PathVariable Long id, @RequestBody UserRequest request) {
+    public ResponseEntity<UserResponse> updatePassword(
+            @PathVariable Long id, @RequestBody UserRequest request, Principal principal) {
         request.setPassword(request.getNewPassword());
-        final UserVO vo = userService.updatePassword(id, userVOAssembler.toVO(request));
+        final UserVO vo = userService.updatePassword(id, userVOAssembler.toVO(request), principal.getName());
         final UserResponse response = userResourceAssembler.toResource(vo);
         logger.info("Password updated::" + vo);
         return ResponseEntity.ok(response);
@@ -84,16 +84,17 @@ public class UserController {
     }
 
     @RequestMapping(value = "/{id}/password/reset", method = RequestMethod.POST)
-    public ResponseEntity<UserResponse> resetPassword(@PathVariable Long id, @RequestBody UserRequest request) {
+    public ResponseEntity<UserResponse> resetPassword(
+            @PathVariable Long id, @RequestBody UserRequest request, Principal principal) {
 
         final User user = userService.findUserByResetToken(request.getResetToken())
                 .orElseThrow(() -> new InvalidResetTokenException(request.getResetToken()));
 
         request.setPassword(request.getNewPassword());
-        final UserVO vo = userService.updatePassword(id, userVOAssembler.toVO(request));
+        final UserVO vo = userService.updatePassword(id, userVOAssembler.toVO(request), principal.getName());
 
-        final UserResponse response = userResourceAssembler.toResource(vo);
         logger.info("Password updated::" + vo);
+        final UserResponse response = userResourceAssembler.toResource(vo);
         return ResponseEntity.ok(response);
     }
 

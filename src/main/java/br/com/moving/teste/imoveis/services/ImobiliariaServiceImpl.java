@@ -6,6 +6,7 @@ import br.com.moving.teste.imoveis.exceptions.ImobiliariaNotFoundException;
 import br.com.moving.teste.imoveis.vos.ImobiliariaVO;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,17 +18,14 @@ import java.util.Optional;
  * Created by ifc.vinicius.saraiva on 29/09/17.
  */
 @Service
-@RequiredArgsConstructor
 @Transactional(readOnly = true)
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ImobiliariaServiceImpl implements ImobiliariaService {
 
-    private @NonNull
-    final ImobiliariaRepository imobiliariaRepository;
+    private @NonNull final ImobiliariaRepository imobiliariaRepository;
 
-    private @NonNull
-    final ImobiliariaVOAssembler imobiliariaVOAssembler;
-    private @NonNull
-    final ImobiliariaORMAssembler imobiliariaORMAssembler;
+    private @NonNull final ImobiliariaVOAssembler imobiliariaVOAssembler;
+    private @NonNull final ImobiliariaORMAssembler imobiliariaORMAssembler;
 
     @Override
     public ImobiliariaVO save(ImobiliariaVO vo) {
@@ -42,16 +40,16 @@ public class ImobiliariaServiceImpl implements ImobiliariaService {
 
     @Override
     public Page<ImobiliariaVO> getAll(Pageable pageable) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void delete(Long id) {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public ImobiliariaVO update(Long id, ImobiliariaVO vo) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 }
