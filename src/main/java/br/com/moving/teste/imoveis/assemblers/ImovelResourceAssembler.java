@@ -14,8 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ImovelResourceAssembler extends ResourceAssemblerSupportMoving<ImovelVO, ImovelResponse> {
 
-    private final @NonNull
-    EntityLinks entityLinks;
+    private final @NonNull EntityLinks entityLinks;
 
     public ImovelResourceAssembler(EntityLinks entityLinks) {
         super(ImovelController.class, ImovelResponse.class);

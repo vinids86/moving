@@ -1,6 +1,6 @@
 ## About
 
-This is an example project that illustrates creating a RESTful API in Spring Boot.
+This is an example project that illustrates creating a RESTful API in Spring Boot with OATH2.
 
 ## Runnning
 
