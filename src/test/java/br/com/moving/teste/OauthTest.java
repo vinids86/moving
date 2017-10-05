@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
-@SpringBootTest(classes = {TesteApplication.class, OAuth2Config.class, UserDetailsServiceImpl.class})
+@SpringBootTest(classes = {TesteApplication.class})
 public class OauthTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
